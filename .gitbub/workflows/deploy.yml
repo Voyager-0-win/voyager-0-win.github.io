@@ -1,18 +1,21 @@
-name: Deploy to GitHub Pages
+name: Deploy Astro Blog
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     environment: github-pages
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-      - name: Build & Upload Astro site
+
+      - name: Build & Deploy Astro
         uses: withastro/action@v3
