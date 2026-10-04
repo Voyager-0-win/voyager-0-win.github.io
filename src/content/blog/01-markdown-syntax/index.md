@@ -1,7 +1,7 @@
 ---
 title: "Markdown syntax guide"
 description: "Get started writing content in markdown."
-date: "Oct 3 2026"
+date: "Jun 24 2026"
 ---
 
 ---
