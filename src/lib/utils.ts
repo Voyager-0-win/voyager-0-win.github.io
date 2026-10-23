@@ -13,11 +13,18 @@ export function formatDate(date: Date) {
   }).format(date);
 }
 
-export function readingTime(html: string) {
-  const textOnly = html.replace(/<[^>]+>/g, "");
-  const wordCount = textOnly.split(/\s+/).length;
-  const readingTimeMinutes = ((wordCount / 200) + 1).toFixed();
-  return `${readingTimeMinutes} min read`;
+export function readingTime(html: string): string {
+  const textOnly = html.replace(/<[^>]+>/g, ' ')
+  const cjkCount = (textOnly.match(/[\u4e00-\u9fa5]/g) || []).length
+  const enWordCount = textOnly
+    .replace(/[\u4e00-\u9fa5]/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length
+
+  const minutes = Math.ceil(cjkCount / 300 + enWordCount / 200)
+
+  return `${Math.max(minutes, 1)} min read`
 }
 
 export function dateRange(startDate: Date, endDate?: Date | string): string {
