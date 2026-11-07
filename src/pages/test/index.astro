@@ -8,12 +8,22 @@ const uid = 2186372;
 const response = await fetch(`https://www.luogu.com.cn/user/${uid}`, {
   headers: {
     "x-lentille-request": "content-only",
+    "User-Agent": "Mozilla/5.0",
+    "Accept": "application/json",
   },
 });
 
-const json = await response.json();
-const data = json.data;
+const contentType = response.headers.get("content-type") ?? "";
+const body = await response.text();
 
+if (!response.ok || !contentType.includes("application/json")) {
+  throw new Error(
+    `Luogu API 请求失败：HTTP ${response.status}，Content-Type: ${contentType}，响应内容：${body.slice(0, 300)}`,
+  );
+}
+
+const json = JSON.parse(body);
+const data = json.data;
 const total = data.user.passedProblemCount;
 const dailyCounts = data.dailyCounts;
 
